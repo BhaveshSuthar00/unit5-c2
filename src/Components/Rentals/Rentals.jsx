@@ -3,6 +3,7 @@ import "./Rentals.css";
 import axios from 'axios'
 export const Rentals = () => {
   const [data, setData] = useState([]);
+  const [change, setChange] = useState(false);
   const getDataFromServer = async () => {
     try {
       const get = await axios.get('http://localhost:8080/houses');
@@ -12,17 +13,46 @@ export const Rentals = () => {
       console.log('error in getDataFromServer', e);
     }
   }
+  const handleRent = (value) =>{
+    if(value === 'low'){
+      console.log('here')
+      let data2 = data.sort((a,b)=>{
+        return ((+a.rent) -  (+b.rent))
+      })
+      console.log(data2)
+      setData(data2)
+      setChange(!change)
+    
+    } else {
+      let data2 = data.sort((a,b)=>{
+        return ((+b.rent) -  (+a.rent))
+      })
+      console.log(data2)
+      setData(data2)
+      setChange(!change)
+    }
+  }
   useEffect(()=>{
+
+  }, [change])
+  const handleId = () => { 
+
+  }
+  const handleArea = (value) => {
+
+  }
+  useEffect(()=>{
+    console.log('ere')
     getDataFromServer();
   }, [])
   return (
     <div className="rentalContainer">
       <div className="sortingButtons">
-        <button className="sortById">Sort by ID</button>
-        <button className="sortByRentAsc">Rent Low to high</button>
-        <button className="sortByRentDesc">Rent High to low</button>
-        <button className="sortByAreaAsc">Area Low to high</button>
-        <button className="sortByAreaDesc">Area High to Low</button>
+        <button className="sortById" onClick={()=>{handleId()}}>Sort by ID</button>
+        <button className="sortByRentAsc"  onClick={()=>{handleRent("low")}}>Rent Low to high</button>
+        <button className="sortByRentDesc"  onClick={()=>{handleRent('high')}}>Rent High to low</button>
+        <button className="sortByAreaAsc"  onClick={()=>{handleArea("low")}}>Area Low to high</button>
+        <button className="sortByAreaDesc"  onClick={()=>{handleArea("high")}}>Area High to Low</button>
       </div>
       <input
         className="searchAddress"
@@ -43,7 +73,7 @@ export const Rentals = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((house, index) => {
+          {data.map((house) => {
             
             return (
               <tr key={house.id} className="houseDetails">
@@ -54,24 +84,8 @@ export const Rentals = () => {
                 <td className="areaCode">{house.areaCode}</td>
                 <td className="rent">{house.rent}</td>
                 <td className="preferredTenants">
-                  {
-                    (e)=>{
-                      let value = e.target.value
-                      console.log(value)
-                      console.log(house.married)
-                      // if(house.married === true && house.bachelor === true){
-                      //    value= 'for Bachelor and married'
-                      // }
-                      // else if(house.married === true){
-                      //    value='for married'
-                      // }
-                      // else if(house.bachelor === true){
-                      //    value='for Bachelor'
-                      // } else {
-                      //    value = 'not Available'
-                      // }
-                    }
-                  }
+
+                  {house.married || house.bachelor}
                 </td>
                 <td className="houseImage">
                   <img src={house.image} alt="house" />
