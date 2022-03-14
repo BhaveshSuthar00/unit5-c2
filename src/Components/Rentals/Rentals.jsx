@@ -15,7 +15,6 @@ export const Rentals = () => {
   }
   const handleRent = (value) =>{
     if(value === 'low'){
-      console.log('here')
       let data2 = data.sort((a,b)=>{
         return ((+a.rent) -  (+b.rent))
       })
@@ -27,7 +26,6 @@ export const Rentals = () => {
       let data2 = data.sort((a,b)=>{
         return ((+b.rent) -  (+a.rent))
       })
-      console.log(data2)
       setData(data2)
       setChange(!change)
     }
@@ -36,10 +34,32 @@ export const Rentals = () => {
 
   }, [change])
   const handleId = () => { 
-
+      let data2 = data.sort((a,b)=>{
+        return ((+a.id) -  (+b.id))
+      })
+      setData(data2)
+      setChange(!change)
+    
+    
   }
   const handleArea = (value) => {
-
+    if(value === 'low'){
+      console.log('here')
+      let data2 = data.sort((a,b)=>{
+        return ((+a.area) -  (+b.area))
+      })
+      console.log(data2)
+      setData(data2)
+      setChange(!change)
+    
+    } else {
+      let data2 = data.sort((a,b)=>{
+        return ((+b.area) -  (+a.area))
+      })
+      console.log(data2)
+      setData(data2)
+      setChange(!change)
+    }
   }
   useEffect(()=>{
     console.log('ere')
