@@ -1,6 +1,20 @@
+import {useEffect,useState} from 'react'
 import "./Rentals.css";
-
+import axios from 'axios'
 export const Rentals = () => {
+  const [data, setData] = useState([]);
+  const getDataFromServer = async () => {
+    try {
+      const get = await axios.get('http://localhost:8080/houses');
+      console.log(get);
+    }
+    catch(e){
+      console.log('error in getDataFromServer', e);
+    }
+  }
+  useEffect(()=>{
+
+  }, [])
   return (
     <div className="rentalContainer">
       <div className="sortingButtons">
