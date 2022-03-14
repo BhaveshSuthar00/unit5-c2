@@ -46,7 +46,7 @@ export const Rentals = () => {
     if(value === 'low'){
       console.log('here')
       let data2 = data.sort((a,b)=>{
-        return ((+a.area) -  (+b.area))
+        return ((+a.areaCode) -  (+b.areaCode))
       })
       console.log(data2)
       setData(data2)
@@ -54,7 +54,7 @@ export const Rentals = () => {
     
     } else {
       let data2 = data.sort((a,b)=>{
-        return ((+b.area) -  (+a.area))
+        return ((+b.areaCode) -  (+a.areaCode))
       })
       console.log(data2)
       setData(data2)
