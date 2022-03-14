@@ -1,56 +1,108 @@
+import axios from "axios";
 import { useState} from "react";
+import {v4 as uuid} from 'uuid'
 export const AddHouse = () => {
   const [inputData, setInputData] = useState({
     name : '',
-
+    ownerName : '',
+    address : '',
+    areaCode : 0,
+    rent : 0,
+    bachelor : false,
+    married : false,
+    image :  '',
   })
-  const handleSubmit = () => {
+  const handleChange = (event, checked) => {
+    if(event.target.name ==='married' || event.target.name === 'bachelor'){
+      console.log(event.target.name, checked)
+      if(checked){
+        setInputData({...inputData, [event.target.name] : checked})
+      } else {
+        setInputData({...inputData, [event.target.name] : checked})
+      }
+    }
+    else {
 
+      const { name, value} = event.target;
+      setInputData({
+        ...inputData, 
+        [name] : value,
+      })
+    }
+  }
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log(inputData)
+      axios.post('http://localhost:8080/houses', {...inputData, id : uuid()})
+      setInputData({
+        name : '',
+      ownerName : '',
+      address : 0,
+      areaCode : 0,
+      rent : 0,
+      bachelor : false,
+      married : false,
+      image :  '',
+      })
   }
   return (
     <div className="addHouseContainer">
-      <form onSubmit={()=>{handleSubmit()}}>
+      <form onSubmit={(e)=>{handleSubmit(e)}}>
         <label>name</label>
-        <input type="text" className="name" value="name" required />
+        <input type="text" className="name" name="name" required  onChange={(e)=>{handleChange(e)}}/>
         <br />
         <label>ownerName</label>
-        <input value="ownerName" type="text" className="ownerName" required />
+        <input name="ownerName" type="text" className="ownerName" required onChange={(e)=>{handleChange(e)}}/>
         <br />
         <label>address</label>
-        <input value="address" type="text" className="address" required />
+        <input name="address" type="text" className="address" required onChange={(e)=>{handleChange(e)}}/>
         <br />
         <label>areaCode</label>
-        <input value="areaCode" type="text" className="areaCode" required />
+        <input name="areaCode" type="text" className="areaCode" required onChange={(e)=>{handleChange(e)}}/>
         <br />
         <label>rent</label>
-        <input value="rent" type="text" className="rent" required />
+        <input name="rent" type="text" className="rent" required onChange={(e)=>{handleChange(e)}}/>
         <br />
         <label>preferredTenant</label>
         <br />
         <label>bachelor</label>
-        <input  type="checkbox" className="bachelor" onChange={(e)=>{
+        <input name='bachelor'  type="checkbox" className="bachelor" onChange={(e)=>{
           let checked = e.target.checked;
-          if(checked === ''){
-            checked = 'bachelor'
+          if(checked === true){
+            handleChange(e,checked)
+          }
+          else{
+            handleChange(e,checked)
+          }
+          if(checked){
+            checked = !checked;
           }
           else {
-            checked = ''
+            checked = !checked;
           }
         }}/>
         <br />
         <label>married</label>
-        <input  type="checkbox" className="married"  onChange={(e)=>{
+        <input name='married'  type="checkbox" className="married"  onChange={(e)=>{
           let checked = e.target.checked;
-          if(checked === ''){
-            checked = 'married'
+          if(checked === true){
+            handleChange(e,checked)
           }
           else {
-            checked = ''
+            handleChange(e, checked)
+          }
+          if(checked){
+            // checked = 'married'
+            
+            checked = !checked;
+          }
+          else {
+            checked = !checked
           }
         }}/>
         <br />
         <label>image</label>
-        <input value="image" type="text" className="image" required />
+        <input name="image" type="text" className="image" required onChange={(e)=>{handleChange(e)}}/>
         <br />
         <input className="submitBtn" type="submit" />
       </form>

@@ -6,14 +6,14 @@ export const Rentals = () => {
   const getDataFromServer = async () => {
     try {
       const get = await axios.get('http://localhost:8080/houses');
-      console.log(get);
+      setData(get.data);
     }
     catch(e){
       console.log('error in getDataFromServer', e);
     }
   }
   useEffect(()=>{
-
+    getDataFromServer();
   }, [])
   return (
     <div className="rentalContainer">
@@ -43,7 +43,8 @@ export const Rentals = () => {
           </tr>
         </thead>
         <tbody>
-          {[].map((house, index) => {
+          {data.map((house, index) => {
+            
             return (
               <tr key={house.id} className="houseDetails">
                 <td className="houseId">{house.id}</td>
@@ -53,7 +54,24 @@ export const Rentals = () => {
                 <td className="areaCode">{house.areaCode}</td>
                 <td className="rent">{house.rent}</td>
                 <td className="preferredTenants">
-                  {/* Show text Both or Bachelors or Married based on values */}
+                  {
+                    (e)=>{
+                      let value = e.target.value
+                      console.log(value)
+                      console.log(house.married)
+                      // if(house.married === true && house.bachelor === true){
+                      //    value= 'for Bachelor and married'
+                      // }
+                      // else if(house.married === true){
+                      //    value='for married'
+                      // }
+                      // else if(house.bachelor === true){
+                      //    value='for Bachelor'
+                      // } else {
+                      //    value = 'not Available'
+                      // }
+                    }
+                  }
                 </td>
                 <td className="houseImage">
                   <img src={house.image} alt="house" />
