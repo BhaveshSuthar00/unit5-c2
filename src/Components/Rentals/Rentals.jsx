@@ -61,8 +61,15 @@ export const Rentals = () => {
       setChange(!change)
     }
   }
+  const handleAreaCode = (value) =>{
+    if(!value) getDataFromServer()
+    let k = data.filter(person => String(person.address).startsWith(value))
+    if(!k.length > 0) return
+    setData(k)
+    setChange(!change)
+    
+  }
   useEffect(()=>{
-    console.log('ere')
     getDataFromServer();
   }, [])
   return (
@@ -78,6 +85,7 @@ export const Rentals = () => {
         className="searchAddress"
         type="text"
         placeholder="Search Address"
+        onChange={(e)=>{handleAreaCode(e.target.value)}}
       />
       <table className="table" border="1">
         <thead>
@@ -104,8 +112,9 @@ export const Rentals = () => {
                 <td className="areaCode">{house.areaCode}</td>
                 <td className="rent">{house.rent}</td>
                 <td className="preferredTenants">
-
-                  {house.married || house.bachelor}
+                  <span>{house.married ? "Married" : "Non-Married"}</span>
+                  <span> / </span>
+                  <span>{house.bachelor ? "Bachelor" : "Non-Bachelor"}</span>
                 </td>
                 <td className="houseImage">
                   <img src={house.image} alt="house" />

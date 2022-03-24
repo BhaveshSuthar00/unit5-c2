@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState} from "react";
-import {v4 as uuid} from 'uuid'
 export const AddHouse = () => {
   const [inputData, setInputData] = useState({
     name : '',
@@ -33,7 +32,7 @@ export const AddHouse = () => {
   const handleSubmit = (e) => {
       e.preventDefault();
       console.log(inputData)
-      axios.post('http://localhost:8080/houses', {...inputData, id : uuid()})
+      axios.post('http://localhost:8080/houses', inputData)
       setInputData({
         name : '',
       ownerName : '',
@@ -92,8 +91,6 @@ export const AddHouse = () => {
             handleChange(e, checked)
           }
           if(checked){
-            // checked = 'married'
-            
             checked = !checked;
           }
           else {
